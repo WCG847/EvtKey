@@ -1,0 +1,60 @@
+#include <stdint.h>
+#include <stdio.h>
+#include "EKey.h"
+#pragma pack(push, 1)
+
+typedef struct tagEKEY_TABLE {
+	uint32_t FieldCount :16;
+} EKEY_TABLE;
+
+typedef struct tagEKEY_TABLE_FIELDS {
+	uint32_t Act;
+	uint32_t Loc;
+	uint32_t Frames;
+	uint32_t Resolved;
+} EKEY_TABLE_FIELDS;
+
+typedef struct tagEKEY {
+	uint8_t Data[256];
+	struct TABLE {
+		EKEY_TABLE Head;
+		EKEY_TABLE_FIELDS Tracks[];
+	} Table;
+} EKEY;
+#pragma pack(pop)
+
+static void EKey_AnalyseTracks(const EKEY_TABLE_FIELDS *Tracks, size_t Count) {
+	EKEY_TABLE_FIELDS Track;
+	[[maybe_unused]] void *Data = (unsigned char *)Tracks + (sizeof(EKEY_TABLE_FIELDS) * Count);
+	FILE *Trk = fopen("Tracks.trk", "w");
+	for (size_t Index = 0; Index < Count; Index++) {
+		Track = Tracks[Index];
+		uint16_t Asset = Track.Act >> 16;
+		uint8_t Category = Track.Act >> 8;
+		uint8_t Entry = Track.Act & 0xFF;
+		printf("[%llu]\n \n{\n Asset: [%hu],\n Category: [%hhu],\n Entry: [%hhu],\n Location: [%#x],\n Frames: [%u]\n}\n", Index, Asset, Category,
+			   Entry, Track.Loc, Track.Frames);
+		fprintf(Trk, "{\n Asset: [%hu],\n Category: [%hhu],\n Entry: "
+			   "[%hhu],\n Location: [%#x],\n Frames: [%u]\n}\n\n",
+			   Asset, Category, Entry, Track.Loc, Track.Frames);
+		fflush(Trk);
+
+		
+	}
+	fclose(Trk);
+
+}
+
+static void EKey_Analyse(const EKEY *Cnk) {
+	printf("EKEY STREAM\n\n");
+	for (int i = 0; i < 256; i++) {
+		printf("%02x ", Cnk->Data[i]);
+	}
+	printf("\n\nTracks: \n");
+	printf("Tracks found: [%u]\n", Cnk->Table.Head.FieldCount);
+	EKey_AnalyseTracks(Cnk->Table.Tracks, Cnk->Table.Head.FieldCount);
+}
+
+void EKey_Start(void *Buffer) {
+	EKey_Analyse(Buffer);
+}
