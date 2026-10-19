@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <stdio.h>
+#include <windows.h>
 #include "EKey.h"
 #include "Motion.h"
 #pragma pack(push, 1)
@@ -26,8 +27,9 @@ typedef struct tagEKEY {
 
 static void EKey_AnalyseTracks(const EKEY_TABLE_FIELDS *Tracks, size_t Count) {
 	EKEY_TABLE_FIELDS Track;
-	void *Data = (unsigned char *)Tracks + (sizeof(EKEY_TABLE_FIELDS) * Count);
+	[[maybe_unused]] void *Data = (unsigned char *)Tracks + (sizeof(EKEY_TABLE_FIELDS) * Count);
 	FILE *Trk = fopen("Tracks.trk", "w");
+	CreateDirectoryW(L"Acts", nullptr);
 	char Buf[16];
 	fprintf(Trk, "[\n");
 	for (size_t Index = 0; Index < Count; Index++) {
@@ -40,9 +42,9 @@ static void EKey_AnalyseTracks(const EKEY_TABLE_FIELDS *Tracks, size_t Count) {
 		fprintf(Trk, "\t{\n Asset: [%hu],\n Category: [%hhu],\n Entry: "
 			   "[%hhu],\n Location: [%#x],\n Frames: [%u]\n\t}\n\n",
 			   Asset, Category, Entry, Track.Loc, Track.Frames);
-		sprintf(Buf, "%u.act", Track.Act);
-		FILE *Action = fopen(Buf, "w");
-		Motion_Analyse(Action, (unsigned char *)Data + Track.Loc, Track.Frames);
+		sprintf(Buf, "Acts\\%hu_%hhu_%hhu.act", Asset, Category, Entry);
+		[[maybe_unused]] FILE *Action = fopen(Buf, "w");
+		// Motion_Analyse(Action, (unsigned char *)Data + Track.Loc, Track.Frames);
 
 		fflush(Trk);
 
