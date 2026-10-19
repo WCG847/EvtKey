@@ -34,6 +34,7 @@ static void EKey_AnalyseTracks(const EKEY_TABLE_FIELDS *Tracks, size_t Count) {
 	fprintf(Trk, "[\n");
 	for (size_t Index = 0; Index < Count; Index++) {
 		Track = Tracks[Index];
+		Track.Act &= 0x3fffffff; // yukes
 		uint16_t Asset = Track.Act >> 16;
 		uint8_t Category = Track.Act >> 8;
 		uint8_t Entry = Track.Act & 0xFF;
