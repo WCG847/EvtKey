@@ -30,7 +30,7 @@ static void EKey_AnalyseTracks(const EKEY_TABLE_FIELDS *Tracks, size_t Count) {
 	[[maybe_unused]] void *Data = (unsigned char *)Tracks + (sizeof(EKEY_TABLE_FIELDS) * Count);
 	FILE *Trk = fopen("Tracks.trk", "w");
 	CreateDirectoryW(L"Acts", nullptr);
-	char Buf[16];
+	char Buf[160];
 	fprintf(Trk, "[\n");
 	for (size_t Index = 0; Index < Count; Index++) {
 		Track = Tracks[Index];
