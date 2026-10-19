@@ -44,10 +44,11 @@ static void EKey_AnalyseTracks(const EKEY_TABLE_FIELDS *Tracks, size_t Count) {
 			   "[%hhu],\n Location: [%#x],\n Frames: [%u]\n\t}\n\n",
 			   Asset, Category, Entry, Track.Loc, Track.Frames);
 		sprintf(Buf, "Acts\\%hu_%hhu_%hhu.act", Asset, Category, Entry);
-		[[maybe_unused]] FILE *Action = fopen(Buf, "w");
+		FILE *Action = fopen(Buf, "w");
 		// Motion_Analyse(Action, (unsigned char *)Data + Track.Loc, Track.Frames);
 
 		fflush(Trk);
+		fclose(Action);
 
 		
 	}
