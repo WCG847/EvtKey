@@ -6,7 +6,8 @@
 #pragma pack(push, 1)
 
 typedef struct tagEKEY_TABLE {
-	uint32_t FieldCount :16;
+	uint16_t FieldCount;
+	uint16_t Reserved; // seems to be a limit
 } EKEY_TABLE;
 
 typedef struct tagEKEY_TABLE_FIELDS {
