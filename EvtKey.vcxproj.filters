@@ -3,8 +3,10 @@
   <ItemGroup>
     <ClCompile Include="main.c" />
     <ClCompile Include="EKey.c" />
+    <ClCompile Include="Motion.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EKey.h" />
+    <ClInclude Include="Motion.h" />
   </ItemGroup>
 </Project>

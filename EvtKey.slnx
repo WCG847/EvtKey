@@ -3,5 +3,5 @@
     <BuildType Name="Release" />
     <Platform Name="x64" />
   </Configurations>
-  <Project Path="EvtKey.vcxproj" />
+  <Project Path="EvtKey.vcxproj" Id="bb63417c-c54d-4c8a-af1c-1cee286e6bb2" />
 </Solution>

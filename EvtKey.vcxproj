@@ -70,9 +70,11 @@
   <ItemGroup>
     <ClCompile Include="EKey.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="Motion.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EKey.h" />
+    <ClInclude Include="Motion.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
